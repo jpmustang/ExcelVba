@@ -1,0 +1,26 @@
+Sub BuscaNaColuna()
+'
+'Busca valor em uma coluna, caso valores duplicados, trará ultimo valor.
+'Substitui função .Find, uma vez que .Find para no primeiro valor buscado
+
+'Declaração de variável
+  Dim LinhaBusca As Long
+  Dim ftLinha As String 'Variável para retornar linha do excel
+  Dim ftNome As String 'Varável que será buscada na coluna
+
+ftNome = 80 'Valor para busca
+
+LinhaBusca = 1 'Linha inicial de busca
+
+'Inicio da busca
+    While Range("A" & LinhaBusca).Value <> ""
+        If Cells(LinhaBusca, 1).Value = ftNome Then
+            ftLinha = Range("A" & LinhaBusca).Row
+        End If
+        LinhaBusca = LinhaBusca + 1
+     Wend
+'Fim da busca
+
+MsgBox "Está na linha " & ftLinha 'Retorna mensagem com valor buscado
+
+End Sub
