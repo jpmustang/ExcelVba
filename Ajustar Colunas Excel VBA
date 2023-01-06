@@ -1,0 +1,5 @@
+'Para ajustar a largura de todas as colunas da primeira coluna até a última coluna preenchida com dados, você pode usar o seguinte código VBA:
+
+Dim lastColumn As Integer
+lastColumn = Cells(1, Columns.Count).End(xlToLeft).Column
+Columns("A:A" & lastColumn).ColumnWidth = 20
