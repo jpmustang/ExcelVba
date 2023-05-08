@@ -1,0 +1,31 @@
+Sub BuscaCEP()
+    'Criado por João Paulo PA
+ 
+    Dim UltimaLinha As Long 'Declaração de variável
+    
+    UltimaLinha = Range("A1048576").End(xlUp).Row 'Atribuindo a ultima linha preenchida na variável
+    
+        If UltimaLinha <= 1 Then 'Verificação condicional para não trabalhar caso ultima linha valorada seja 1
+            MsgBox "Nenhum CEP para buscar!" 'Exibe mensagem informando que não há CEP.
+            Exit Sub 
+        End If
+
+    Range("B2:G1048576").ClearContents
+    
+    Range("B2").Select
+
+    ActiveCell.FormulaR1C1 = _
+        "=MID(WEBSERVICE(""viacep.com.br/ws/""&RC1&""/xml/""),SEARCH(R1C,WEBSERVICE(""viacep.com.br/ws/""&RC1&""/xml/""),1)+LEN(R1C)+1,((SEARCH(""</"",WEBSERVICE(""viacep.com.br/ws/""&RC1&""/xml/""),SEARCH(R1C,WEBSERVICE(""viacep.com.br/ws/""&RC1&""/xml/""),1))-1)-(SEARCH(R1C,WEBSERVICE(""viacep.com.br/ws/""&RC1&""/xml/""),1)+LEN(R1C))))"
+    Range("B2").Select
+    
+    If UltimaLinha > 2 Then
+        Selection.AutoFill Destination:=Range("B2:B" & UltimaLinha)
+    End If
+    
+    Range("B2").Select
+    
+    Selection.AutoFill Destination:=Range("B2:G2"), Type:=xlFillDefault
+    Selection.AutoFill Destination:=Range("B2:G" & UltimaLinha), Type:=xlFillDefault
+    
+    
+End Sub
