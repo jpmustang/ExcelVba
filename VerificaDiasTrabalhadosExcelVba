@@ -1,0 +1,36 @@
+Sub VerificaDiasTrabalho()
+    'Função para inserir verificação de dias trabalhados
+    'Criado para automatizar verifica no formulário de pagamento J&T
+
+    Dim ultLinhaBase As Long
+    Dim ultLinhaData As Long
+    
+    Sheets("BASE").Select
+    
+    ultLinhaBase = Worksheets("BASE").Range("A1048576").Row
+    
+    Worksheets("BASE").Range("G1:G" & ultLinhaBase).Select
+
+    Selection.Copy
+    Sheets("DIN").Select
+    Sheets("DIN").Range("S1").Select
+    ActiveSheet.Paste Destination:=Selection
+    
+    Columns("S:S").Select
+    Application.CutCopyMode = False
+    ActiveSheet.Range("$S$1:$S$1048576").RemoveDuplicates Columns:=1, Header:= _
+        xlYes
+        
+    Range("S1").Select
+    ultLinhaData = Worksheets("DIN").Range("S1048576").End(xlUp).Row
+    
+    Range("T2").Select
+    ActiveCell.FormulaR1C1 = _
+    "=COUNTIFS(BASE!C[-13],DIN!RC[-1],BASE!C[-17],IF(LEN(R2C8)<9,R2C8&""*"",R2C8))"
+    Range("T2:T" & ultLinhaData).Select
+    Selection.FillDown
+    
+    Range("T" & ultLinhaData + 1).Select
+    ActiveCell.FormulaR1C1 = "=COUNTIF(R[-15]C:R[-1]C,"">0"")"
+    
+End Sub
